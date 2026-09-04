@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cayman Islands — A Visitor's Chart</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#0E2A38;
+    --navy-deep:#081A24;
+    --sand:#F3EEE1;
+    --sand-dim:#E9E1CC;
+    --turquoise:#2E8C89;
+    --turquoise-pale:#BFE0DA;
+    --coral:#E2703C;
+    --ink-on-sand:#1B2B2E;
+    --line-dark:rgba(243,238,225,0.18);
+    --line-light:#DDD5BE;
+    --radius:2px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--sand);
+    color:var(--ink-on-sand);
+    font-family:'Inter', sans-serif;
+    font-size:16px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{
+    font-family:'Libre Caslon Display', serif;
+    font-weight:400;
+    letter-spacing:-0.01em;
+    color:inherit;
+  }
+  a{color:inherit;}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 32px;}
+  .coord{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.72rem;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+  }
+  a:focus-visible, button:focus-visible{outline:2px solid var(--coral);outline-offset:3px;}
+
+  /* ===== Header ===== */
+  header{
+    position:sticky;top:0;z-index:50;
+    background:rgba(14,42,56,0.94);
+    backdrop-filter:blur(6px);
+  }
+  .nav{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:20px 32px;max-width:1120px;margin:0 auto;
+    color:var(--sand);
+  }
+  .brand{
+    font-family:'Libre Caslon Display', serif;
+    font-size:1.25rem;
+  }
+  .brand .coord{display:block;color:var(--turquoise-pale);margin-top:2px;font-size:0.62rem;}
+  .nav-links{display:flex;gap:30px;list-style:none;font-size:0.9rem;}
+  .nav-links a{text-decoration:none;}
+  .nav-links a:hover, .nav-links a:focus-visible{color:var(--turquoise-pale);}
+  @media (max-width:820px){.nav-links{display:none;}}
+
+  /* ===== Hero ===== */
+  .hero{
+    background:var(--navy);
+    color:var(--sand);
+    padding:88px 0 0;
+    position:relative;
+    overflow:hidden;
+  }
+  .hero-inner{
+    display:grid;
+    grid-template-columns:1.1fr 0.9fr;
+    gap:56px;
+    align-items:center;
+    padding-bottom:64px;
+  }
+  .hero h1{
+    font-size:clamp(2.5rem, 5vw, 4rem);
+    line-height:1.08;
+    margin:20px 0 22px;
+  }
+  .hero h1 em{font-style:italic;color:var(--turquoise-pale);}
+  .hero p{
+    color:#C9CFCF;
+    max-width:44ch;
+    font-size:1.05rem;
+    margin-bottom:12px;
+  }
+  .hero-facts{
+    display:flex;
+    gap:28px;
+    margin-top:32px;
+    flex-wrap:wrap;
+  }
+  .hero-fact b{display:block;font-family:'IBM Plex Mono',monospace;font-size:0.95rem;color:var(--turquoise-pale);}
+  .hero-fact span{font-size:0.74rem;color:#93A0A0;text-transform:uppercase;letter-spacing:0.06em;}
+
+  .chart-map{position:relative;aspect-ratio:1/1;max-width:420px;margin:0 auto;}
+  .chart-map svg{width:100%;height:100%;}
+
+  .tide-line{
+    height:1px;
+    background:linear-gradient(90deg, transparent, var(--turquoise), transparent);
+    opacity:0.5;
+  }
+
+  /* ===== Section shared ===== */
+  section{padding:84px 0;border-bottom:1px solid var(--line-light);}
+  .section-head{
+    display:flex;justify-content:space-between;align-items:flex-end;
+    gap:28px;margin-bottom:48px;flex-wrap:wrap;
+  }
+  .section-head h2{font-size:clamp(1.8rem,3vw,2.4rem);margin-top:8px;}
+  .section-head p{color:#5B6A6A;max-width:38ch;font-size:0.97rem;}
+
+  /* ===== Islands comparison ===== */
+  .islands{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:24px;
+  }
+  .island-card{
+    background:var(--navy);
+    color:var(--sand);
+    padding:32px 26px;
+    border-radius:var(--radius);
+    position:relative;
+  }
+  .island-card .coord{color:var(--turquoise-pale);margin-bottom:14px;display:block;}
+  .island-card h3{font-size:1.4rem;margin-bottom:12px;}
+  .island-card p{color:#C9CFCF;font-size:0.92rem;margin-bottom:18px;}
+  .island-tags{display:flex;gap:8px;flex-wrap:wrap;}
+  .island-tags span{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:0.66rem;
+    letter-spacing:0.05em;
+    text-transform:uppercase;
+    border:1px solid var(--line-dark);
+    padding:5px 10px;
+    border-radius:20px;
+    color:var(--turquoise-pale);
+  }
+  @media (max-width:820px){.islands{grid-template-columns:1fr;}}
+
+  /* ===== Attractions ===== */
+  .attraction-list{display:flex;flex-direction:column;}
+  .attraction{
+    display:grid;
+    grid-template-columns:80px 1fr auto;
+    gap:24px;
+    align-items:baseline;
+    padding:26px 0;
+    border-bottom:1px solid var(--line-light);
+  }
+  .attraction:first-child{padding-top:0;}
+  .attraction:last-child{border-bottom:none;}
+  .attraction-num{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:0.8rem;
+    color:var(--turquoise);
+  }
+  .attraction-name{
+    font-family:'Libre Caslon Display', serif;
+    font-size:1.3rem;
+    margin-bottom:6px;
+  }
+  .attraction-desc{color:#5B6A6A;font-size:0.94rem;max-width:56ch;}
+  .attraction-tag{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:0.7rem;
+    letter-spacing:0.05em;
+    text-transform:uppercase;
+    color:var(--coral);
+    white-space:nowrap;
+    text-align:right;
+  }
+  @media (max-width:640px){
+    .attraction{grid-template-columns:1fr;gap:6px;}
+    .attraction-tag{text-align:left;}
+  }
+
+  /* ===== Weather strip ===== */
+  .weather-wrap{
+    background:var(--navy);
+    color:var(--sand);
+  }
+  .weather-grid{
+    display:grid;
+    grid-template-columns:repeat(6, 1fr);
+    gap:0;
+    margin-top:8px;
+  }
+  .weather-col{
+    padding:16px 10px;
+    text-align:center;
+    border-left:1px solid var(--line-dark);
+  }
+  .weather-col:first-child{border-left:none;}
+  .weather-col .month{font-family:'IBM Plex Mono',monospace;font-size:0.68rem;letter-spacing:0.08em;color:#93A0A0;text-transform:uppercase;}
+  .weather-bar-track{height:120px;display:flex;align-items:flex-end;justify-content:center;margin:12px 0;}
+  .weather-bar{
+    width:14px;
+    background:var(--turquoise);
+    border-radius:2px 2px 0 0;
+  }
+  .weather-col .temp{font-family:'IBM Plex Mono',monospace;font-size:0.82rem;color:var(--turquoise-pale);}
+  .weather-note{
+    color:#93A0A0;
+    font-size:0.88rem;
+    margin-top:28px;
+    max-width:56ch;
+  }
+  @media (max-width:820px){.weather-grid{grid-template-columns:repeat(3,1fr);row-gap:20px;}
+    .weather-col{border-left:none;}
+  }
+
+  /* ===== Practical info ===== */
+  .practical-grid{
+    display:grid;
+    grid-template-columns:repeat(4, 1fr);
+    gap:1px;
+    background:var(--line-light);
+    border:1px solid var(--line-light);
+  }
+  .practical-item{
+    background:var(--sand);
+    padding:28px 24px;
+  }
+  .practical-item .coord{color:var(--turquoise);display:block;margin-bottom:10px;}
+  .practical-item h4{
+    font-family:'Libre Caslon Display', serif;
+    font-size:1.1rem;
+    margin-bottom:8px;
+    font-weight:400;
+  }
+  .practical-item p{font-size:0.88rem;color:#5B6A6A;}
+  @media (max-width:820px){.practical-grid{grid-template-columns:repeat(2,1fr);}}
+  @media (max-width:520px){.practical-grid{grid-template-columns:1fr;}}
+
+  /* ===== Culture / cuisine ===== */
+  .culture-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:56px;
+  }
+  .culture-grid p{color:#5B6A6A;margin-bottom:16px;font-size:0.98rem;}
+  .culture-grid p:first-of-type{
+    font-family:'Newsreader', serif;
+    font-style:italic;
+    font-size:1.35rem;
+    color:var(--ink-on-sand);
+    line-height:1.45;
+  }
+  .dish-list{list-style:none;}
+  .dish-list li{
+    display:flex;justify-content:space-between;gap:16px;
+    padding:14px 0;
+    border-bottom:1px solid var(--line-light);
+    font-size:0.94rem;
+  }
+  .dish-list li:first-child{padding-top:0;}
+  .dish-list li span:last-child{color:#5B6A6A;text-align:right;max-width:30ch;font-size:0.88rem;}
+  @media (max-width:820px){.culture-grid{grid-template-columns:1fr;gap:36px;}}
+
+  /* ===== Footer ===== */
+  footer{background:var(--navy-deep);color:var(--sand);padding:64px 0 32px;}
+  .footer-grid{
+    display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:48px;
+    margin-bottom:48px;
+  }
+  .footer-brand h2{font-size:1.7rem;margin-bottom:14px;}
+  .footer-brand p{color:#93A0A0;max-width:38ch;font-size:0.92rem;}
+  .footer-col h4{
+    font-family:'IBM Plex Mono',monospace;font-size:0.7rem;letter-spacing:0.1em;
+    text-transform:uppercase;color:var(--turquoise-pale);margin-bottom:16px;
+  }
+  .footer-col a, .footer-col p{
+    display:block;color:#C9CFCF;text-decoration:none;font-size:0.92rem;margin-bottom:10px;
+  }
+  .footer-col a:hover, .footer-col a:focus-visible{color:var(--sand);}
+  .footer-bottom{
+    display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
+    padding-top:24px;border-top:1px solid var(--line-dark);
+    font-family:'IBM Plex Mono',monospace;font-size:0.7rem;color:#7C8A8A;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{scroll-behavior:auto !important;transition:none !important;animation:none !important;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <div class="brand">Cayman Islands
+      <span class="coord">19.31° N, 81.25° W · Western Caribbean</span>
+    </div>
+    <ul class="nav-links">
+      <li><a href="#islands">The Islands</a></li>
+      <li><a href="#attractions">Attractions</a></li>
+      <li><a href="#weather">When to go</a></li>
+      <li><a href="#practical">Plan your trip</a></li>
+      <li><a href="#culture">Culture &amp; food</a></li>
+    </ul>
+  </div>
+</header>
+
+<main>
+
+  <section class="hero" style="border-bottom:none;">
+    <div class="wrap hero-inner">
+      <div>
+        <p class="coord">A visitor's guide</p>
+        <h1>Three coral islands, <em>one</em> underwater world.</h1>
+        <p>The Cayman Islands are a British Overseas Territory in the Western Caribbean — Grand Cayman, Cayman Brac, and Little Cayman — ringed by coral reef, warm shallows, and some of the clearest water in the hemisphere.</p>
+        <div class="hero-facts">
+          <div class="hero-fact"><b>George Town</b><span>Capital, Grand Cayman</span></div>
+          <div class="hero-fact"><b>English</b><span>Official language</span></div>
+          <div class="hero-fact"><b>KYD</b><span>Currency, pegged to USD</span></div>
+        </div>
+      </div>
+      <div class="chart-map" aria-hidden="true">
+        <svg viewBox="0 0 400 400">
+          <circle cx="200" cy="200" r="180" fill="none" stroke="#1C3F4F" stroke-width="1"/>
+          <circle cx="200" cy="200" r="130" fill="none" stroke="#1C3F4F" stroke-width="1"/>
+          <circle cx="200" cy="200" r="80" fill="none" stroke="#1C3F4F" stroke-width="1"/>
+          <line x1="200" y1="10" x2="200" y2="390" stroke="#1C3F4F" stroke-width="1"/>
+          <line x1="10" y1="200" x2="390" y2="200" stroke="#1C3F4F" stroke-width="1"/>
+          <!-- Grand Cayman shape (stylised) -->
+          <path d="M150 190 Q170 178 210 182 Q250 186 258 200 Q248 212 210 214 Q170 214 150 202 Z" fill="#2E8C89"/>
+          <!-- Little Cayman -->
+          <ellipse cx="120" cy="260" rx="16" ry="5" fill="#BFE0DA" transform="rotate(-8 120 260)"/>
+          <!-- Cayman Brac -->
+          <ellipse cx="150" cy="270" rx="14" ry="5" fill="#BFE0DA" transform="rotate(-8 150 270)"/>
+          <text x="262" y="204" fill="#F3EEE1" font-family="IBM Plex Mono" font-size="9">GRAND CAYMAN</text>
+          <text x="80" y="252" fill="#93A0A0" font-family="IBM Plex Mono" font-size="8">LITTLE CAYMAN</text>
+          <text x="118" y="286" fill="#93A0A0" font-family="IBM Plex Mono" font-size="8">CAYMAN BRAC</text>
+        </svg>
+      </div>
+    </div>
+    <div class="tide-line"></div>
+  </section>
+
+  <section id="islands">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <p class="coord">Not one island — three</p>
+          <h2>Pick your pace</h2>
+        </div>
+        <p>Each island has a distinct character, from lively resort coast to near-empty dive country.</p>
+      </div>
+      <div class="islands">
+        <div class="island-card">
+          <span class="coord">Largest · most developed</span>
+          <h3>Grand Cayman</h3>
+          <p>Home to Seven Mile Beach, the capital George Town, and the bulk of the islands' resorts, restaurants, and nightlife. Base yourself here for variety.</p>
+          <div class="island-tags"><span>Beaches</span><span>Shopping</span><span>Nightlife</span></div>
+        </div>
+        <div class="island-card">
+          <span class="coord">Rugged · quieter</span>
+          <h3>Cayman Brac</h3>
+          <p>Named for the limestone bluff running its spine, the Brac draws hikers and cave explorers along with divers working its coastal walls.</p>
+          <div class="island-tags"><span>Caves</span><span>Hiking</span><span>Diving</span></div>
+        </div>
+        <div class="island-card">
+          <span class="coord">Smallest · slowest</span>
+          <h3>Little Cayman</h3>
+          <p>Barely ten miles long with a population in the low hundreds. Best known for Bloody Bay Wall, one of the world's great dive sites, and near-total quiet.</p>
+          <div class="island-tags"><span>Diving</span><span>Fishing</span><span>Solitude</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="attractions">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <p class="coord">Field notes</p>
+          <h2>What to do first</h2>
+        </div>
+        <p>The islands' best-known draws, mostly on and around Grand Cayman.</p>
+      </div>
+      <div class="attraction-list">
+        <div class="attraction">
+          <span class="attraction-num">01</span>
+          <div>
+            <div class="attraction-name">Stingray City</div>
+            <div class="attraction-desc">A shallow sandbar in the North Sound where wild southern stingrays have gathered since divers began feeding them in the 1980s. Wade, snorkel, or dive among them.</div>
+          </div>
+          <span class="attraction-tag">Grand Cayman</span>
+        </div>
+        <div class="attraction">
+          <span class="attraction-num">02</span>
+          <div>
+            <div class="attraction-name">Seven Mile Beach</div>
+            <div class="attraction-desc">A long arc of coral sand along Grand Cayman's western shore, widely rated among the Caribbean's best. Calm, clear water and easy reef snorkeling close to shore.</div>
+          </div>
+          <span class="attraction-tag">Grand Cayman</span>
+        </div>
+        <div class="attraction">
+          <span class="attraction-num">03</span>
+          <div>
+            <div class="attraction-name">USS Kittiwake wreck</div>
+            <div class="attraction-desc">A decommissioned US Navy vessel deliberately sunk off Seven Mile Beach in 2011 to form an artificial reef — now a swim-through dive popular with all levels.</div>
+          </div>
+          <span class="attraction-tag">Grand Cayman</span>
+        </div>
+        <div class="attraction">
+          <span class="attraction-num">04</span>
+          <div>
+            <div class="attraction-name">George Town waterfront</div>
+            <div class="attraction-desc">The capital's harbor front holds the islands' oldest building and the Cayman Islands National Museum, along with duty-free shopping streets nearby.</div>
+          </div>
+          <span class="attraction-tag">Grand Cayman</span>
+        </div>
+        <div class="attraction">
+          <span class="attraction-num">05</span>
+          <div>
+            <div class="attraction-name">Bloody Bay Wall</div>
+            <div class="attraction-desc">A sheer drop-off starting in shallow water and plunging past 1,000 feet, widely ranked among the world's premier wall dives.</div>
+          </div>
+          <span class="attraction-tag">Little Cayman</span>
+        </div>
+        <div class="attraction">
+          <span class="attraction-num">06</span>
+          <div>
+            <div class="attraction-name">Queen Elizabeth II Botanic Park</div>
+            <div class="attraction-desc">Sixty-five acres of native flora, a floral garden, and a protected habitat for the endangered Grand Cayman blue iguana.</div>
+          </div>
+          <span class="attraction-tag">Grand Cayman</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="weather" style="border-bottom:none;padding:0;">
+    <div class="weather-wrap">
+      <div class="wrap" style="padding:84px 32px;">
+        <div class="section-head" style="margin-bottom:8px;">
+          <div>
+            <p class="coord" style="color:var(--turquoise-pale);">Climate notes</p>
+            <h2>When to go</h2>
+          </div>
+          <p style="color:#93A0A0;">Warm year-round; the real question is rain and hurricane risk, not temperature.</p>
+        </div>
+        <div class="weather-grid">
+          <div class="weather-col">
+            <div class="month">Jan–Mar</div>
+            <div class="weather-bar-track"><div class="weather-bar" style="height:40%;"></div></div>
+            <div class="temp">Driest</div>
+          </div>
+          <div class="weather-col">
+            <div class="month">Apr–May</div>
+            <div class="weather-bar-track"><div class="weather-bar" style="height:52%;"></div></div>
+            <div class="temp">Warming</div>
+          </div>
+          <div class="weather-col">
+            <div class="month">Jun–Jul</div>
+            <div class="weather-bar-track"><div class="weather-bar" style="height:68%;"></div></div>
+            <div class="temp">Hurricane season begins</div>
+          </div>
+          <div class="weather-col">
+            <div class="month">Aug–Sep</div>
+            <div class="weather-bar-track"><div class="weather-bar" style="height:92%;"></div></div>
+            <div class="temp">Peak wet &amp; storm risk</div>
+          </div>
+          <div class="weather-col">
+            <div class="month">Oct–Nov</div>
+            <div class="weather-bar-track"><div class="weather-bar" style="height:78%;"></div></div>
+            <div class="temp">Storm season tapers</div>
+          </div>
+          <div class="weather-col">
+            <div class="month">December</div>
+            <div class="weather-bar-track"><div class="weather-bar" style="height:45%;"></div></div>
+            <div class="temp">Dry season returns</div>
+          </div>
+        </div>
+        <p class="weather-note">Atlantic hurricane season runs June through November, peaking August–October. The dry season, roughly November to April, is the most popular and most crowded stretch to visit — book accommodation and dive trips well ahead if traveling then.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="practical">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <p class="coord">Before you land</p>
+          <h2>Practical details</h2>
+        </div>
+        <p>The essentials for a first visit.</p>
+      </div>
+      <div class="practical-grid">
+        <div class="practical-item">
+          <span class="coord">Currency</span>
+          <h4>Cayman Islands Dollar</h4>
+          <p>The KYD is pegged to the US dollar at roughly CI$1 = US$1.20. US dollars are widely accepted, and change is often given in KYD.</p>
+        </div>
+        <div class="practical-item">
+          <span class="coord">Getting there</span>
+          <h4>Owen Roberts Airport</h4>
+          <p>Grand Cayman's international airport near George Town has direct flights from several US and Canadian gateway cities. Cayman Brac and Little Cayman have their own smaller airstrips.</p>
+        </div>
+        <div class="practical-item">
+          <span class="coord">Getting around</span>
+          <h4>Drive on the left</h4>
+          <p>Cars, scooters, and taxis are the main options. A temporary local driving permit is typically required and can usually be arranged through your rental agency.</p>
+        </div>
+        <div class="practical-item">
+          <span class="coord">Language &amp; status</span>
+          <h4>English, British territory</h4>
+          <p>The Cayman Islands are a self-governing British Overseas Territory. English is the official language, and signage and services follow British-style conventions.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="culture" style="border-bottom:none;">
+    <div class="wrap culture-grid">
+      <div>
+        <p class="coord">Table &amp; tradition</p>
+        <p>Caribbean, but distinctly its own — Cayman's food carries British, Jamaican, and seafaring influence in equal measure.</p>
+        <p>Fishing and the sea shape the local table as much as the reef shapes the coastline. Expect fresh-caught fish, conch pulled straight from island waters, and a slower, communal way of eating that owes as much to British tradition as to its Caribbean neighbors.</p>
+        <p>Grand Cayman's dining scene has grown well beyond that — with a dense concentration of restaurants for an island its size — but the classics are still what most visitors remember.</p>
+      </div>
+      <div>
+        <ul class="dish-list">
+          <li><span>Cayman-style fish</span><span>Snapper or grouper, sautéed with tomato, onion, and island seasoning</span></li>
+          <li><span>Conch, three ways</span><span>Fritters, chowder, or cracked conch, breaded and fried</span></li>
+          <li><span>Turtle stew</span><span>A traditional dish, now typically made with farmed turtle</span></li>
+          <li><span>Cayman-style beans and rice</span><span>Kidney beans cooked with coconut milk and thyme</span></li>
+          <li><span>Heavy cake</span><span>A dense, spiced cassava cake served in slices</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <h2>Chart your visit.</h2>
+        <p>Three islands, one reef system, and water clear enough to see the bottom from the surface. Plan around the dry season if you can, and bring a mask regardless of which island you land on.</p>
+      </div>
+      <div class="footer-col">
+        <h4>On this page</h4>
+        <a href="#islands">The islands</a>
+        <a href="#attractions">Attractions</a>
+        <a href="#weather">When to go</a>
+        <a href="#practical">Practical details</a>
+      </div>
+      <div class="footer-col">
+        <h4>Quick facts</h4>
+        <p>Capital: George Town</p>
+        <p>Currency: KYD (CI$)</p>
+        <p>Language: English</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>Informational guide — verify current entry requirements before travel</span>
+      <span>19.3133° N, 81.2546° W</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
